@@ -1,0 +1,8 @@
+
+	<div id="Introduction">
+		In this experiment you will have 10 minutes to study a passage and learn as much as you can before being tested on the content. Please enter in your keycode below and press begin. 
+	</div>
+	<%= form_for(@subject, :url => {:action => :quiz}) do |form| %>
+		<%= form.text_field(:keycode) %>
+		<%= submit_tag "Begin" %>
+	<% end %>
