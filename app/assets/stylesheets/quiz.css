@@ -38,14 +38,15 @@
       width:auto
   }
   h2 {
-      font: bold 1.3em/1.2em"Helvetica Neue", Helvetica, Arial, sans-serif;
+      font: bold 1.1em/1.2em"Helvetica Neue", Helvetica, Arial, sans-serif;
       padding:0;
-     /* text-align:center;*/
       margin:20px 0;
+      margin-right:40px;
+      width:600px;
   }
   p.pager {
       margin:5px 0 5px;
-      font:bold 1em/1em"Helvetica Neue", Helvetica, Arial, sans-serif;
+      font:bold;
       color:#999;
   }
 
@@ -72,24 +73,21 @@
   #submitbutton:hover {
       background:#7b8da6;
   }
-  .scorer{
-    display:block;
-  }
+
   #score{
     background:#A0A0A0;
     border:1px solid #666;
-    width:150px;
+    width:120px;
     height:50px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     padding:10px;
-    font-size:30px;
+    font-size:24px;
     display:inline-block;
     position:absolute;
-    left:650px;
-    top:100px;
-
+    left:700px;
+    top:150px;
   }
 
   #result{
@@ -97,7 +95,7 @@
     font-size:100px;
     display:inline-block;
     position:absolute;
-    left:500px;
+    left:580px;
 }
 
   .choice-box {
@@ -117,5 +115,27 @@
   text-align:center;
   font:bold 1.3em/1.2em"Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+iframe{
+  width:800px;
+  height:800px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   </style>

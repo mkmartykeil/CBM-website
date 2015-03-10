@@ -4,8 +4,11 @@ class ExperimentController <ApplicationController
 		@subject = Subject.new
 	end
 	def quiz
-		@subject = Subject.new(:keycode => params[:subject][:keycode],:date_time => DateTime.now, :question => params[:data])
+		@subject = Subject.new(:keycode => se,:date_time => DateTime.now, :question => params[:data])
+		#binding.pry()
 		@subject.save
+	end
+	def reading
 	end
 	def admin
 		@subjects = Subject.all

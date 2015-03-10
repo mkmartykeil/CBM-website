@@ -1,39 +1,36 @@
- var quiztitle = "Experiment Part 2";
+ var quiztitle = "Experiment Part 1";
 
 
  var quiz = [
         {
-            "question" : "Q1: What is the function of the kidney?",
+            "question" : "Which of the following is NOT among the 4 cardinal signs of inflammation?",
             "choices" : [
-                                    "The kidney is responsible for filtering the liquid in our bodies, but it will not filter alternative uses of this kind.",
-                                    "It would create a spiraling nature",
-                                    "Albert Einstein",
-                                    "Ralph Waldo Emmerson"
+                                    "redness",
+                                    "heat",
+                                    "pain",
+                                    "itching"
                                 ],
-            "correct" : "Albert Einstein",
-            "explanation" : "Albert Einstein drafted the special theory of relativity in 1905.",
+            "correct" : "itching"
         },
         {
-            "question" : "Q2: Who is on the two dollar bill?",
+            "question" : "What is the first response of blood vessels at the site of injury?",
             "choices" : [
-                                    "Thomas Jefferson",
-                                    "Dwight D. Eisenhower",
-                                    "Benjamin Franklin",
-                                    "Abraham Lincoln"
+                                    "vasoconstriction",
+                                    "vasodilation",
+                                    "redness",
+                                    "edema"
                                 ],
-            "correct" : "Thomas Jefferson",
-            "explanation" : "The two dollar bill is seldom seen in circulation. As a result, some businesses are confused when presented with the note.",
+            "correct" : "vasoconstriction"
         },
         {
-            "question" : "Q3: What event began on April 12, 1861?",
+            "question" : "Which of the following is a correct statement about inflammation?",
             "choices" : [
-                                    "First manned flight",
-                                    "California became a state",
-                                    "American Civil War began",
-                                    "Declaration of Independence"
+                                    "Inflammation is a normal process which protects the body from foreign substances.",
+                                    "Inflammation is the body's immune response to irritation, injury, or trauma.",
+                                    "Inflammation is a sequence of cellular and chemical events which occur to protect the body.",
+                                    "All of the above."
                                 ],
-            "correct" : "American Civil War began",
-            "explanation" : "South Carolina came under attack when Confederate soldiers attacked Fort Sumter. The war lasted until April 9th 1865.",
+            "correct" : "All of the above."
         },
      
 
@@ -50,7 +47,9 @@
      user_confidence =[];
      user_time =[];
      decision_time =[];
-     result =0;
+     result = 0;
+     stage = 0;
+     group =0;
 
  jQuery(document).ready(function ($) {
 
@@ -81,8 +80,6 @@
          $('#pager').text('Question ' + Number(currentquestion + 1) + ' of ' + quiz.length);
          addChoices(quiz[currentquestion]['choices']);
          setupButtons();
-
-
      }
 
 
@@ -123,16 +120,7 @@
                     });
                 }
              }
-             if(confidence == 1){
-                result = 0;
-             }
-             if(confidence == 2){
-                result = 2;
-             }
-             if(confidence == 3){
-                result = 4;
-             }
-
+             result = confidence;
              score -= result;  
              $('#result').html('<strong> -'+ result + '</strong>' );
              $('#result').css({
@@ -234,28 +222,52 @@
          $('#result').remove();
          $('#score').remove();
          $('#question').empty();
-         $('#choice-block').empty();
-         $('#confidence-block').empty();
+         $('#choice-block').remove();
+         $('#confidence-block').remove();
          $('#submitbutton').remove();
-         $('#question').html("Your score is " + score  +"<br>"+ user_answers+ "<br>" + user_confidence + "<br>" + user_time);
+         $('#pager').remove();
          var data2 = [user_correct,user_answers,user_confidence,user_time,decision_time];
-         var trial1 = "Trial1";
+         if(stage ==2){
+            if(group == 0){
+            $('#question').html("Congratulations on finishing the quiz! Your final score was " + score + " out of a possible 60 points. You now have the option to review the passage for any amount of time before taking one last quiz. Click on the passage and press the proceed to quiz button when you are ready.");
+        }
+        else{
+            $('#question').html("Congratulations on finishing the quiz! Your final score was " + ((score / 20)*100) + "%. You now have the option to review the passage for any amount of time before taking one last quiz. Click on the passage and press the proceed to quiz button when you are ready.");
+        }
+        $(document.createElement('div')).addClass('choice-box').attr('id', 'nextbutton').text('Next').css({
+                'font-weight': 700,
+                 'color': '#222',
+                 'padding': '30px 0'
+            }).appendTo('#frame');
+                $('#nextbutton').on('click', function () {
+                $('#title').remove();
+                $('#question').remove();
+                $('#nextbutton').remove();
+                stage++;
+                reading();
+        })
+        }
+        else{
+            $('#question').html("Finished! Thank you for participating!");
+            exportToCsv("Trial1",data2);
+        }
+    }
+         // var trial1 = "Trial1";
          // $.ajax({
          //    url: "/experiment/quiz",
          //    type: "POST",
          //    data: {"data": data2, dataType: "json"}
          // })
-         // exportToCsv(trial1,data);
-     }
+         
 
 
      function init() {
          //add title
-         if (typeof quiztitle !== "undefined" && $.type(quiztitle) === "string") {
-             $(document.createElement('h1')).text(quiztitle).appendTo('#frame');
-         } else {
-             $(document.createElement('h1')).text("Quiz").appendTo('#frame');
-         }
+         // if (stage == 2) {
+         //     $(document.createElement('h1')).attr('id', 'title').text("Experiment Part 1").appendTo('#frame');
+         // } else {
+         //     $(document.createElement('h1')).text("Experiment Part 2").appendTo('#frame');
+         // }
 
          //add pager and questions
          if (typeof quiz !== "undefined" && $.type(quiz) === "array") {
@@ -287,9 +299,77 @@
 
              setupButtons();
          }
+    }
+     function reading(){
+        if (stage == 1) {
+             $(document.createElement('h1')).attr('id', 'title').text("Experiment Part 1").appendTo('#frame');
+         } else {
+             $(document.createElement('h1')).text("Experiment Part 2").appendTo('#frame');
+         }
+        $('<iframe src="https://docs.google.com/document/d/1rSs2rIZWuivtGQy3IjLrgBfcUX4SjfvWcPCIpxIIAVU/pub?embedded=true" id="myFrame"></iframe>').appendTo('#frame');
+        if (stage!=3){
+        $(document.createElement('div')).addClass('choice-box').attr('id', 'nextbutton').text('Next').css({
+                'font-weight': 700,
+                 'color': '#222',
+                 'padding': '30px 0'
+            }).appendTo('#frame');
+                $('#nextbutton').on('click', function () {
+                $('#nextbutton').remove();
+                $('#myFrame').remove();
+                prompt();
+        });
+        }
+        else{
+            $(document.createElement('div')).addClass('choice-box').attr('id', 'nextbutton').text('Proceed to Quiz').css({
+                'font-weight': 700,
+                 'color': '#222',
+                 'padding': '30px 0'
+            }).appendTo('#frame');
+                $('#nextbutton').on('click', function () {
+                $('#nextbutton').remove();
+                $('#myFrame').remove();
+                currentquestion = 0;
+                score = 0;
+                init();
+        }); 
+        }
+    }
+     function prompt(){
+        if(stage == 0){
+            $(document.createElement('div')).attr('id', 'intro').text('Part 1 Instructions').appendTo('#frame');
+            $(document.createElement('div')).attr('id', 'intro2').text('Before you begin, please make sure you’re in a quiet location where you will not be disturbed for about 20-30 minutes.We’re going to give you a reading about your body’s initial response to cell injury.Read through the passage once and click the next button when you are done. You will then be given a short quiz on this passage. ' ).css({
+                 'color': '#222',
+                 'padding': '30px 0'
+            }).appendTo('#frame');
+        }
+        if(stage == 1 && group == 0){
+            $(document.createElement('div')).attr('id', 'intro').text('Part 1 Instructions').appendTo('#frame');
+            $(document.createElement('div')).attr('id', 'intro2').text('You will now take a 20 question multiple choice quiz. Click the answer you believe to be correct - there should only be one correct answer per question. Then, rate your confidence in your answer on a scale from 1-3. If you are correct, you will earn as many points as your confidence rating. If you are incorrect, you will be deducted your confidence rating.').appendTo('#frame');
+        }
+        if(stage == 1 && group == 1){
+            $(document.createElement('div')).attr('id', 'intro').text('Part 1 Instructions').appendTo('#frame');
+            $(document.createElement('div')).attr('id', 'intro2').text('You will now take a 20 question multiple choice quiz. Click the answer you believe to be correct - there should only be one correct answer per question.').appendTo('#frame');
+        }
+        $(document.createElement('div')).addClass('choice-box').attr('id', 'nextbutton').text('Next').css({
+                'font-weight': 700,
+                 'color': '#222',
+                 'padding': '30px 0'
+            }).appendTo('#frame');
+        $('#nextbutton').on('click', function () {
+                $('#intro').remove();
+                $('#intro2').remove();
+                $('#nextbutton').remove();
+                if(stage == 0){
+                    stage++;
+                    reading();
+                }
+                else if(stage == 1){
+                    stage++
+                    init();
+                }
+             });
      }
-
-     init();
+     prompt();
  });
 
  function exportToCsv(filename, rows) {
