@@ -25,18 +25,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 body {
 	font-color: black;
 	background-size:100%;
-	background: url(gray.jpg);
 	width: 100%;
 	padding:20px;
 	margin:50px;
 }
 
-#header {
-
-
-#nav {
-
-}
 
 #content {
 	font-family: arial;

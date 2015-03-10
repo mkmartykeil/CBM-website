@@ -27,7 +27,8 @@
       border:1px solid #ccc;
       background:#fff;
       padding:10px;
-      margin:3px;
+      margin:20px;
+      margin-left:40px;
   }
   h1 {
       font:normal bold 2em/1.8em"Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -86,7 +87,7 @@
     display:inline-block;
     position:absolute;
     left:700px;
-    top:150px;
+    top:80px;
   }
 
   #result{
@@ -94,7 +95,7 @@
     font-size:100px;
     display:inline-block;
     position:absolute;
-    left:580px;
+    left:520px;
 }
 
   .choice-box {
@@ -118,5 +119,10 @@
 iframe{
   width:800px;
   height:800px;
+}
+
+#intro2{
+  margin-top:20px;
+  margin-bottom:20px;
 }
 

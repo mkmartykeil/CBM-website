@@ -1,5 +1,4 @@
 class ExperimentController <ApplicationController
-	respond_to :js, :json, :html
 	def login
 		@subject = Subject.new
 	end

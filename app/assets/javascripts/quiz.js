@@ -45,8 +45,9 @@
      user_correct = [];
      user_answers = [];
      user_confidence =[];
-     user_time =[];
+     review_time =[];
      decision_time =[];
+     reading_time =[];
      result = 0;
      stage = 0;
      group =0;
@@ -132,7 +133,7 @@
          var start = Date.now();
          $('#submitbutton').html('NEXT QUESTION &raquo;').on('click', function () {
             var end = Date.now()
-            user_time.push(end-start);
+            review_time.push(end-start);
              if (currentquestion == quiz.length) {
                  endQuiz();
              } else {
@@ -226,7 +227,7 @@
          $('#confidence-block').remove();
          $('#submitbutton').remove();
          $('#pager').remove();
-         var data2 = [user_correct,user_answers,user_confidence,user_time,decision_time];
+         var data2 = [user_correct,user_answers,user_confidence,review_time,decision_time,reading_time];
          if(stage ==2){
             if(group == 0){
             $('#question').html("Congratulations on finishing the quiz! Your final score was " + score + " out of a possible 60 points. You now have the option to review the passage for any amount of time before taking one last quiz. Click on the passage and press the proceed to quiz button when you are ready.");
@@ -262,12 +263,6 @@
 
 
      function init() {
-         //add title
-         // if (stage == 2) {
-         //     $(document.createElement('h1')).attr('id', 'title').text("Experiment Part 1").appendTo('#frame');
-         // } else {
-         //     $(document.createElement('h1')).text("Experiment Part 2").appendTo('#frame');
-         // }
 
          //add pager and questions
          if (typeof quiz !== "undefined" && $.type(quiz) === "array") {
@@ -301,6 +296,7 @@
          }
     }
      function reading(){
+        var start = Date.now();
         if (stage == 1) {
              $(document.createElement('h1')).attr('id', 'title').text("Experiment Part 1").appendTo('#frame');
          } else {
@@ -314,9 +310,11 @@
                  'padding': '30px 0'
             }).appendTo('#frame');
                 $('#nextbutton').on('click', function () {
-                $('#nextbutton').remove();
-                $('#myFrame').remove();
-                prompt();
+                    var end = Date.now();
+                    reading_time.push(end-start);
+                    $('#nextbutton').remove();
+                    $('#myFrame').remove();
+                    prompt();
         });
         }
         else{
@@ -328,6 +326,8 @@
                 $('#nextbutton').on('click', function () {
                 $('#nextbutton').remove();
                 $('#myFrame').remove();
+                var end = Date.now();
+                reading_time.push(end-start);
                 currentquestion = 0;
                 score = 0;
                 init();
@@ -343,7 +343,6 @@
             }).appendTo('#frame');
         }
         if(stage == 1 && group == 0){
-            $(document.createElement('div')).attr('id', 'intro').text('Part 1 Instructions').appendTo('#frame');
             $(document.createElement('div')).attr('id', 'intro2').text('You will now take a 20 question multiple choice quiz. Click the answer you believe to be correct - there should only be one correct answer per question. Then, rate your confidence in your answer on a scale from 1-3. If you are correct, you will earn as many points as your confidence rating. If you are incorrect, you will be deducted your confidence rating.').appendTo('#frame');
         }
         if(stage == 1 && group == 1){
