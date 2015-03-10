@@ -13,12 +13,14 @@
 
 ActiveRecord::Schema.define(version: 20150304234254) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "subjects", force: true do |t|
     t.string   "keycode"
     t.string   "date_time"
-    t.string   "question",   default: "--- []\n"
-    t.string   "confidence", default: "--- []\n"
-    t.string   "questionB",  default: "--- []\n"
+    t.string   "question"
+    t.string   "questionB"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
